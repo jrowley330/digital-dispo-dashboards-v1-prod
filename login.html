@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Login to Dashboard</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 100px;
+      background-color: #000;
+      color: #fff;
+    }
+
+    button {
+      padding: 14px 28px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+
+    #loading {
+      display: none;
+      font-size: 20px;
+      margin-top: 30px;
+    }
+
+    #progress-container {
+      display: none;
+      width: 80%;
+      margin: 30px auto;
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 24px;
+    }
+
+    #progress-bar {
+      width: 0%;
+      height: 100%;
+      background-color: #00bcd4;
+      transition: width 0.25s linear;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Digital Dispo</h1>
+  <button id="login-btn">Login to Dashboard</button>
+  <div id="loading">Refreshing report... Please wait ⏳</div>
+
+  <div id="progress-container">
+    <div id="progress-bar"></div>
+  </div>
+
+  <script>
+  document.getElementById('login-btn').addEventListener('click', function () {
+    // Hide button, show loading UI
+    document.getElementById('login-btn').style.display = 'none';
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('progress-container').style.display = 'block';
+
+    // Trigger Make.com webhook
+    fetch('https://hook.us2.make.com/vchvhpyeukqgd5tyl6o3r1wf6cstb4j8', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({key: 'siteload' }) // optional payload
+    });
+
+    // Animate progress bar over 30 seconds
+    const progressBar = document.getElementById('progress-bar');
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 100 / 120; // ~0.83% every 250ms for 30s
+      if (progress >= 100) {
+        progressBar.style.width = '100%';
+        clearInterval(interval);
+      } else {
+        progressBar.style.width = progress + '%';
+      }
+    }, 250);
+
+    // After 30 seconds, redirect
+    setTimeout(() => {
+      window.location.href = 'report.html';
+    }, 30000);
+  });
+</script>
+</body>
+</html>
