@@ -241,7 +241,11 @@
         showOverlay();
 
         const progressP = animateProgress(REFRESH_DURATION_MS);
+        
+          // Wait 3s before calling Make to give form submissions time to land
+        setTimeout(() => {
         triggerMake();
+        }, 3000);
 
         const pageP = (async () => {
           try { const p = await withTimeout(report.getActivePage(), 1500); return {name: p?.name, displayName: p?.displayName}; }
