@@ -6,8 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
-      --bg1:#0b0f1a; --bg2:#0a0a0a; --glow:#2c66ff; --brand:#1e78ff; --brand-2:#00bcd4;
-      --text:#f6f7fb; --muted:#a8b0c2; --bar:#00bcd4; --outline:rgba(255,255,255,.08);
+      --bg1:#0b0f1a; --bg2:#0a0a0a;
+      --brand:#1e78ff; --brand-2:#00bcd4;
+      --text:#f6f7fb; --muted:#a8b0c2;
+      --bar:#00bcd4; --outline:rgba(255,255,255,.08);
     }
     *{box-sizing:border-box;}
     html,body{
@@ -40,34 +42,57 @@
     }
 
     /* ---- logo image ---- */
+    .logo-wrap{
+      position:relative;
+      display:flex; justify-content:center;
+      align-items:center; margin-bottom:20px;
+    }
     .hero-img{
-      width: 260px;
-      max-width: 85%;
-      display: block;
-      margin: 0 auto 20px auto;
-      border-radius: 14px;
-      box-shadow:0 0 45px rgba(30,120,255,.35);
-      object-fit: contain;
+      width:260px; max-width:85%;
+      display:block;
+      border-radius:14px;
+      object-fit:contain;
+      position:relative; z-index:2;
     }
 
-    h1{margin:6px 0 6px 0; text-align:center; font-weight:700; letter-spacing:.3px; font-size:clamp(24px,3.5vw,34px);}
-    .sub{margin:0 0 26px 0; text-align:center; color:var(--muted); font-size:clamp(13px,2.6vw,15px);}
+    /* Glowing pulse behind the logo */
+    .logo-wrap::after{
+      content:"";
+      position:absolute;
+      width:260px; height:260px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(30,120,255,.35) 0%, rgba(0,0,0,0) 70%);
+      filter:blur(35px);
+      z-index:1;
+      animation:pulseGlow 4s ease-in-out infinite;
+    }
+    @keyframes pulseGlow{
+      0%,100%{opacity:.4; transform:scale(0.95);}
+      50%{opacity:.8; transform:scale(1.05);}
+    }
+
+    h1{margin:6px 0 6px 0; text-align:center; font-weight:700; letter-spacing:.3px;
+       font-size:clamp(24px,3.5vw,34px);}
+    .sub{margin:0 0 26px 0; text-align:center; color:var(--muted);
+         font-size:clamp(13px,2.6vw,15px);}
     .actions{display:flex; justify-content:center; gap:12px; margin:8px 0 20px 0;}
     .btn{
       background:linear-gradient(180deg, var(--brand), #0f5fd6);
       color:#fff; border:0; padding:14px 22px; border-radius:12px;
       font-size:16px; font-weight:600; cursor:pointer;
-      box-shadow:0 10px 30px rgba(30,120,255,.35), 0 0 0 1px rgba(255,255,255,.06) inset;
+      box-shadow:0 10px 30px rgba(30,120,255,.35),
+                 0 0 0 1px rgba(255,255,255,.06) inset;
       transition:transform .08s ease, filter .2s ease;
     }
     .btn:hover{filter:brightness(1.05);}
     .btn:active{transform:translateY(1px);}
     .btn:disabled{opacity:.6; cursor:not-allowed;}
 
-    .progress-wrap{width:100%; background:#141922; border-radius:12px; overflow:hidden; height:14px;
-                   border:1px solid var(--outline);}
-    .progress-bar{width:0%; height:100%; background:linear-gradient(90deg, var(--bar), #36d6ee);
-                  box-shadow:0 0 22px rgba(0,188,212,.45) inset;}
+    .progress-wrap{width:100%; background:#141922; border-radius:12px;
+                   overflow:hidden; height:14px; border:1px solid var(--outline);}
+    .progress-bar{width:0%; height:100%;
+      background:linear-gradient(90deg, var(--bar), #36d6ee);
+      box-shadow:0 0 22px rgba(0,188,212,.45) inset;}
     .eta{margin:10px 0 0; text-align:center; font-size:13px; color:var(--muted);}
     .hide{display:none;}
   </style>
@@ -75,8 +100,10 @@
 <body>
   <div class="shell">
     <div class="card">
-      <!-- 💫 Digital Dispo Logo -->
-      <img src="assets/digitaldispo-logo.png" alt="Digital Dispo Logo" class="hero-img">
+      <!-- 💫 Digital Dispo Logo with animated glow -->
+      <div class="logo-wrap">
+        <img src="assets/digitaldispo-logo.png" alt="Digital Dispo Logo" class="hero-img" />
+      </div>
 
       <h1>Welcome to <span style="text-shadow:0 0 22px rgba(44,102,255,.35)">Digital Dispo</span></h1>
       <p class="sub">Authenticate to continue to your dashboard.</p>
@@ -141,3 +168,4 @@
   </script>
 </body>
 </html>
+
